@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  user:
+    container_name: user
+    build:
+      context: .
+      dockerfile: apps/user/Dockerfile
+    env_file: .env
+    ports:
+      - 3000:3000
+    networks:
+      - backend-network
+    volumes:
+      - ./apps/user/src:/app/apps/user/src
+      - ./logs/user:/var/logs/
+    depends_on:
+      - easygenerator
+
+  easygenerator:
+    image: mongo:latest
+    container_name: easygenerator
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    command: mongod --port 27022
+    ports:
+      - 27022:27022
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+      external: true
+volumes:
+  dbdata:

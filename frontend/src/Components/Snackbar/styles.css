@@ -1,0 +1,12 @@
+.MuiAlert-root {
+    font-size: 20px !important;
+    padding: 21px 45px !important;
+}
+
+.MuiAlert-icon {
+    font-size: 30px !important;
+}
+
+.MuiSnackbar-root {
+    top: 40% !important;
+}
